@@ -1,15 +1,18 @@
 # Video Stitcher
 
-Video Stitcher is a Python tool designed to concatenate three video files (front bumper, content, and rear bumper) into a single output video file. The tool uses encoding and compression settings specified in a configuration file.
+Video Stitcher is a Python application that combines a front bumper video, main content video, and rear bumper video into a single output video.
 
-## Project Status
+## Features
 
-This project is currently in development. The basic structure and unit tests have been set up, but the core functionality is not yet implemented.
+- Combines three video files (front bumper, main content, rear bumper) into one
+- Configurable encoding settings via YAML configuration file
+- Progress bar to show stitching progress
+- Error handling and logging
 
 ## Requirements
 
-- Python 3.7+
-- Anaconda or Miniconda
+- Python 3.8
+- FFmpeg
 
 ## Installation
 
@@ -27,25 +30,41 @@ This project is currently in development. The basic structure and unit tests hav
 
 ## Project Structure
 
-- `video_stitcher.py`: Main script containing the `VideoStitcher` class (currently in development).
+- `video_stitcher.py`: Main script containing the `VideoStitcher` class.
 - `tests/`: Directory containing unit tests for the project.
 - `environment.yml`: Conda environment file specifying dependencies.
 
 ## Usage
 
-Once the project is fully implemented, you will be able to run:
+1. Ensure you have a `config.yml` file in the project root directory. Example:
+   ```yaml
+   encoding:
+     codec: libx264
+     crf: 23
+     preset: medium
+     audio_codec: aac
+     audio_bitrate: 128k
+   output:
+     format: mp4
+   ```
 
+2. Run the script with the following command:
+   ```bash
+   python video_stitcher.py path/to/front_bumper.mp4 path/to/content.mp4 path/to/rear_bumper.mp4
+   ```
+
+   You can also specify a custom config file:
+   ```bash
+   python video_stitcher.py path/to/front_bumper.mp4 path/to/content.mp4 path/to/rear_bumper.mp4 --config path/to/custom_config.yml
+   ```
+
+3. The stitched video will be saved in the `output` directory.
+
+## Running Tests
+
+To run the unit tests, use the following command:
 ```bash
-python video_stitcher.py --config config.yaml
-```
-
-Where `config.yaml` contains the settings for video concatenation.
-
-### Running Tests
-
-To run the tests, use:
-```bash
-pytest tests/
+pytest tests/test_video_stitcher.py -v
 ```
 
 ## Contributing
