@@ -4,7 +4,11 @@ channels:
   - defaults
 dependencies:
   - python=3.8
+  - pip
   - moviepy
   - pyyaml
-  - ffmpeg
   - pytest
+  - ffmpeg
+  - tqdm
+  - pip:
+    - opencv-python

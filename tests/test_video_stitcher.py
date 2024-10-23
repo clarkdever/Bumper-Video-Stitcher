@@ -1,10 +1,12 @@
 import unittest
 import os
 import yaml
-from video_stitcher import VideoStitcher
+from video_stitcher import VideoStitcher, main
 from moviepy.editor import VideoFileClip, ColorClip
 import subprocess
 import logging
+from unittest.mock import patch
+from io import StringIO
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -134,6 +136,27 @@ class TestVideoStitcher(unittest.TestCase):
         logger.info(f"Actual duration: {output_duration}")
 
         self.assertAlmostEqual(output_duration, expected_duration, delta=1)  # Allow 1 second difference
+
+    def test_cli(self):
+        # Test the command-line interface
+        cmd = [
+            "python", "video_stitcher.py",
+            self.front_bumper,
+            self.content,
+            self.rear_bumper,
+            "--config", self.config_file
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("Video stitching complete", result.stdout)
+
+    @patch('sys.stderr', new_callable=StringIO)
+    def test_progress_reporting(self, mock_stderr):
+        # Test progress reporting
+        self.stitcher.stitch(self.front_bumper, self.content, self.rear_bumper)
+        output = mock_stderr.getvalue()
+        self.assertIn("Processing", output)
+        self.assertIn("B/s", output)  # Look for bytes per second in the output
 
 if __name__ == "__main__":
     unittest.main()
