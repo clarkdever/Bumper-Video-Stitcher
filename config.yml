@@ -1,0 +1,4 @@
+encoding:
+  codec: libx264
+  crf: 23
+  preset: medium
