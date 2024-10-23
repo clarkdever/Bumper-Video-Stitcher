@@ -1,6 +1,3 @@
-Certainly! I'll rewrite the README.md to reflect our current project state and discussion. Here's the updated version:
-
-```markdown:README.md
 # Video Stitcher
 
 Video Stitcher is a Python tool designed to concatenate three video files (front bumper, content, and rear bumper) into a single output video file. The tool uses encoding and compression settings specified in a configuration file.
@@ -17,77 +14,48 @@ This project is currently in development. The basic structure and unit tests hav
 ## Installation
 
 1. Clone this repository:
-   ```
+   ```bash
    git clone https://github.com/clarkdever/Bumper-Video-Stitcher.git
-   cd video-stitcher
+   cd Bumper-Video-Stitcher
    ```
 
 2. Create and activate the Anaconda environment:
-   ```
+   ```bash
    conda env create -f environment.yml
    conda activate video-stitcher
    ```
 
 ## Project Structure
 
-- `video_stitcher.py`: Main script containing the `VideoStitcher` class (currently a skeleton).
-- `tests/test_video_stitcher.py`: Unit tests for the `VideoStitcher` class.
-- `config.yml`: Configuration file for encoding and compression settings (to be implemented).
-- `environment.yml`: Conda environment specification.
-- `LICENSE.md`: MIT License file.
-
-## Development Status
-
-- Basic project structure is set up.
-- Unit tests are defined but not all are passing due to incomplete implementation.
-- The `VideoStitcher` class is defined with a skeleton `stitch` method.
-- Actual video stitching functionality is not yet implemented.
-
-## Next Steps
-
-1. Implement the video stitching logic in the `stitch` method.
-2. Complete the command-line interface in `video_stitcher.py`.
-3. Finalize and refine unit tests.
-4. Implement config file parsing and application of encoding settings.
-
-## Running Tests
-
-To run the unit tests, use the following command:
-
-```
-python -m unittest discover tests
-```
-
-Note: Currently, most tests will fail due to incomplete implementation.
+- `video_stitcher.py`: Main script containing the `VideoStitcher` class (currently in development).
+- `tests/`: Directory containing unit tests for the project.
+- `environment.yml`: Conda environment file specifying dependencies.
 
 ## Usage
 
-Once implemented, the tool will be used as follows:
+Once the project is fully implemented, you will be able to run:
 
+```bash
+python video_stitcher.py --config config.yaml
 ```
-python video_stitcher.py <front_bumper> <content> <rear_bumper>
-```
 
-Replace `<front_bumper>`, `<content>`, and `<rear_bumper>` with the paths to your input video files.
-
-The stitched video will be saved in the `output/` directory with the name `Final_<content_file_name>.mp4`.
-
-## Configuration
-
-Encoding and compression settings will be modifiable in the `config.yml` file. The planned default settings are:
-
-```yaml
-encoding:
-  codec: libx264
-  crf: 23
-  preset: medium
-```
+Where `config.yaml` contains the settings for video concatenation.
 
 ## Contributing
 
-This project is in its early stages. Contributions, ideas, and feedback are welcome. Please open an issue or submit a pull request.
+Feel free to fork this repository and create pull requests for improvements or feature additions. Ensure that new code is covered by unit tests.
+
+### Running Tests
+
+To run the tests, use:
+```bash
+pytest tests/
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-```
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions, you can contact the project maintainer, Clark Dever.
