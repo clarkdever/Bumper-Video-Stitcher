@@ -1,0 +1,10 @@
+encoding:
+  codec: libx264
+  crf: 23
+  preset: slow
+  audio_codec: aac
+  audio_bitrate: 128k
+output:
+  format: mp4
+  resolution: 1920x1080
+  framerate: 30

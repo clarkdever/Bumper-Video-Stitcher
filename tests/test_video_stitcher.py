@@ -30,16 +30,6 @@ class TestVideoStitcher(unittest.TestCase):
         
         os.makedirs(self.output_dir, exist_ok=True)
         
-        config = {
-            "encoding": {
-                "codec": "libx264",
-                "crf": 23,
-                "preset": "ultrafast"
-            }
-        }
-        with open(self.config_file, "w") as f:
-            yaml.dump(config, f)
-        
         self.stitcher = VideoStitcher(self.config_file)
 
     def _create_dummy_video(self, file_path, duration):
@@ -53,14 +43,13 @@ class TestVideoStitcher(unittest.TestCase):
                 raise
 
     def tearDown(self):
-        # Clean up only the config file and output directory
-        if os.path.exists(self.config_file):
-            os.remove(self.config_file)
-        
-        for file in os.listdir(self.output_dir):
-            file_path = os.path.join(self.output_dir, file)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+        # Clean up test files and directories, but not config.yml
+        for file in [self.front_bumper, self.content, self.rear_bumper]:
+            if os.path.exists(file):
+                os.remove(file)
+        for dir in [self.input_dir, self.output_dir]:
+            if os.path.exists(dir) and not os.listdir(dir):
+                os.rmdir(dir)
 
     def test_output_file_name(self):
         # Test if the output file is named correctly

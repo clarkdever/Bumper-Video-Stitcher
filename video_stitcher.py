@@ -3,6 +3,7 @@ import yaml
 import logging
 import argparse
 import time
+import warnings
 from tqdm import tqdm
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 
@@ -10,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class VideoStitcher:
-    def __init__(self, config_file):
+    def __init__(self, config_file='config.yml'):
         self.config_file = config_file
         self.output_dir = "output"
         self.config = self._parse_config()
@@ -19,8 +20,9 @@ class VideoStitcher:
         try:
             with open(self.config_file, 'r') as f:
                 return yaml.safe_load(f)
-        except yaml.YAMLError as e:
-            raise yaml.YAMLError(f"Error parsing config file: {e}")
+        except (yaml.YAMLError, FileNotFoundError) as e:
+            logger.error(f"Error parsing config file: {e}. Please ensure config.yml exists and is properly formatted.")
+            raise
 
     def stitch(self, front_bumper, content, rear_bumper):
         for file in [front_bumper, content, rear_bumper]:
@@ -71,10 +73,18 @@ class VideoStitcher:
 
     def _write_video_with_progress(self, clip, output_file):
         # Start writing the video file
-        clip.write_videofile(output_file, codec=self.config['encoding']['codec'],
-                             preset=self.config['encoding']['preset'],
-                             ffmpeg_params=["-crf", str(self.config['encoding']['crf'])],
-                             logger=None)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            clip.write_videofile(output_file, 
+                                 codec=self.config['encoding']['codec'],
+                                 preset=self.config['encoding']['preset'],
+                                 ffmpeg_params=["-crf", str(self.config['encoding']['crf'])],
+                                 audio_codec=self.config['encoding']['audio_codec'],
+                                 audio_bitrate=self.config['encoding']['audio_bitrate'],
+                                 fps=self.config['output']['framerate'],
+                                 logger=None)
+            for warning in w:
+                logger.warning(f"Warning during video writing: {warning.message}")
 
         # Get the final file size
         file_size = os.path.getsize(output_file)
