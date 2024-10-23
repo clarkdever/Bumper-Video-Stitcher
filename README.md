@@ -41,10 +41,6 @@ python video_stitcher.py --config config.yaml
 
 Where `config.yaml` contains the settings for video concatenation.
 
-## Contributing
-
-Feel free to fork this repository and create pull requests for improvements or feature additions. Ensure that new code is covered by unit tests.
-
 ### Running Tests
 
 To run the tests, use:
@@ -52,9 +48,13 @@ To run the tests, use:
 pytest tests/
 ```
 
+## Contributing
+
+Feel free to fork this repository and create pull requests for improvements or feature additions. Ensure that new code is covered by unit tests.
+
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
 
 ## Contact
 
