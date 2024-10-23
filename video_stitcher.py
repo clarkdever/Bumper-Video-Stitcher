@@ -79,8 +79,9 @@ class VideoStitcher:
                         progress = min(100, int(current_time / total_duration * 100))
                         pbar.update(progress - pbar.n)
 
-            if process.wait() != 0:
-                raise subprocess.CalledProcessError(process.returncode, ffmpeg_cmd)
+            return_code = process.wait()
+            if return_code != 0:
+                raise subprocess.CalledProcessError(return_code, ffmpeg_cmd)
 
             os.remove('concat.txt')
             print(f"Video stitching complete. Output file: {output_file}")
